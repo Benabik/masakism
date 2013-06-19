@@ -1,32 +1,24 @@
-sub to_roman($_ is copy) {
+sub to_roman($num is copy) {
     my $ret = '';
+
+    sub digit($n, $s) {
+        while $num >= $n {
+            $ret ~= $s;
+            $num -= $n;
+        }
+    }
 
     for <
         M D C 100
         C L X 10
         X V I 1
     > -> $ten, $five, $one, $mult {
-        while $_ >= 10 * $mult {
-            $ret ~= $ten;
-            $_ -= 10 * $mult;
-        }
-        if $_ >= 9 * $mult {
-            $ret ~= $one ~ $ten;
-            $_ -= 9 * $mult;
-        }
-        if $_ >= 5 * $mult {
-            $ret ~= $five;
-            $_ -= 5 * $mult;
-        }
-        if $_ >= 4 * $mult {
-            $ret ~= $one ~ $five;
-            $_ -= 4 * $mult;
-        }
+        digit 10 * $mult, $ten;
+        digit  9 * $mult, $one ~ $ten;
+        digit  5 * $mult, $five;
+        digit  4 * $mult, $one ~ $five;
     }
-    while $_ > 0 {
-        $ret ~= 'I';
-        $_--;
-    }
+    digit 1, 'I';
 
     return $ret;
 }
