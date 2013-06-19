@@ -8,17 +8,17 @@ sub to_roman($num is copy) {
         }
     }
 
+    digit 1000, 'M';
     for <
         M D C 100
         C L X 10
         X V I 1
     > -> $ten, $five, $one, $mult {
-        digit 10 * $mult, $ten;
         digit  9 * $mult, $one ~ $ten;
         digit  5 * $mult, $five;
         digit  4 * $mult, $one ~ $five;
+        digit      $mult, $one
     }
-    digit 1, 'I';
 
     return $ret;
 }
