@@ -12,10 +12,10 @@ class TestBot {
 
     method receive_statistics() {
         for $!tester.statistics.kv -> $module, $status {
-            next if %!statistics{$module} :exists and %!statistics{$module} eq $status;
+            next if (%!statistics{$module} // '') eq $status;
             %!statistics{$module} = $status;
 
-            my $msg = %messages{$status} or " had unexpected status $status";
+            my $msg = %messages{$status} // " had unexpected status $status";
             # would prefer .tc, but that doesn't seem to work
             $!channel.send($module.wordcase ~ $msg);
         }
