@@ -21,7 +21,7 @@ class Mock::IRC::Channel {
         @!messages = ();
     }
 
-    method add_message($msg) {
+    method send($msg) {
         push @!messages, $msg
     }
 }
@@ -56,6 +56,7 @@ sub set_things_up_so_something_fails {
 
     set_things_up_so_everything_passes($tester);
     $bot.receive_statistics();
+    $channel.clear_messages();
 
     set_things_up_so_something_fails($tester);
     $bot.receive_statistics();
