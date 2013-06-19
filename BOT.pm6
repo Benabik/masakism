@@ -12,7 +12,7 @@ class TestBot {
 
     method receive_statistics() {
         for $!tester.statistics.kv -> $module, $status {
-            next if (%!statistics{$module} // '') eq $status;
+            next if (%!statistics{$module} // 'PASS') eq $status;
             %!statistics{$module} = $status;
 
             my $msg = %messages{$status} // " had unexpected status $status";
